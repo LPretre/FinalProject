@@ -20,9 +20,7 @@ public class MazeCell {
         return this.isWall;
     }
 
-    public MazeCell getParent() {
-        return this.parent;
-    }
+
 
     public int getRow() {
         return this.row;
@@ -36,9 +34,7 @@ public class MazeCell {
         this.explored = explored;
     }
 
-    public void setParent(MazeCell parent) {
-        this.parent = parent;
-    }
+
 
     public void setWall(boolean wall) {
         this.isWall = wall;

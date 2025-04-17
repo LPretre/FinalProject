@@ -17,7 +17,7 @@ public class Maze {
         for (int row=0; row<this.numRows; row++) {
             for (int col=0; col<this.numCols; col++) {
                 MazeCell mc = this.mazeGrid[row][col];
-                mc.setParent(null);
+
 
                 // Set the start cell to be visited
                 if (mc != this.startCell) {
