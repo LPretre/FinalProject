@@ -3,6 +3,8 @@ public class MazeCell {
     private boolean isWall;
     private int row;
     private int col;
+    private boolean isStartCell;
+    private boolean isEndCell;
 
     public MazeCell(int row, int col) {
         this.row = row;
@@ -20,6 +22,9 @@ public class MazeCell {
         return this.isWall;
     }
 
+    public boolean isStartCell() {return this.isStartCell;}
+
+    public boolean isEndCell() {return this.isEndCell;}
 
 
     public int getRow() {
@@ -38,5 +43,11 @@ public class MazeCell {
 
     public void setWall(boolean wall) {
         this.isWall = wall;
+    }
+    public void setStartCell(){
+        this.isStartCell = true;
+    }
+    public void setEndCell(){
+        this.isEndCell = true;
     }
 }

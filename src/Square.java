@@ -10,13 +10,14 @@ public class Square {
         private int length;         // Radius of the ball
         private Color color;
 
+
         // Constructors
 
     public Square(int xIn, int yIn, Color colorIn) {
         x = xIn;
         y = yIn;
 
-        length = 30;
+        length = 100;
         color = colorIn;
     }
 
@@ -27,10 +28,10 @@ public class Square {
     }
 
     public void shiftXRight(){
-        x += 50;
+        x += 100;
     }
     public void shiftXLeft(){
-        x -= 50;
+        x -= 100;
     }
 
 
@@ -51,13 +52,13 @@ public class Square {
     }
     public void draw(Graphics g) {
         g.setColor(color);
-        g.fillRect(x - length, y - length, length, length);
+        g.fillRect(x, y, length, length);
     }
 
     public void shiftYUp() {
-        y += 50;
+        y -= 100;
     }
     public void shiftYDown() {
-        y -= 50;
+        y += 100;
     }
 }

@@ -7,10 +7,11 @@ public class MazeRaceView extends JFrame{
     public static int SCREEN_HEIGHT = 800;
 
     private Square b;
+    private Maze m;
 
-    public MazeRaceView(Square b) {
+    public MazeRaceView(Square b, Maze m) {
         this.b = b;
-
+        this.m = m;
         this.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
         this.setLocationRelativeTo(null);
         this.setTitle("Key Listener Demo");
@@ -25,9 +26,11 @@ public class MazeRaceView extends JFrame{
         g.setColor(Color.WHITE);
 
         // Because g.Color was set to WHITE, the rectangle will be WHITE
-        g.fillRect(50,  50, SCREEN_WIDTH, SCREEN_HEIGHT);
+        g.fillRect(0,  0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
         // Now have the ball draw itself on top of the White window.
         b.draw(g);
+
+        m.draw(g);
     }
 }
