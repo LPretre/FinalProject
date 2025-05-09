@@ -3,7 +3,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.util.ArrayList;
 
 public class Maze {
     private MazeCell[][] mazeGrid;
@@ -11,13 +10,26 @@ public class Maze {
     private MazeCell endCell;
     private int numRows;
     private int numCols;
-    private static final int STARTING_X = 300;
-    private static final int STARTING_Y = 300;
-    private static final int CELL_WIDTH = 100;
-    private static final int CELL_HEIGHT = 100;
+    private String difficulty;
+    private static final int STARTING_X = 100;
+    private static final int STARTING_Y = 50;
+    private int sideLength;
 
-    public Maze(String filename) {
+    public Maze(String filename, String difficulty) {
+        if (difficulty.equals("Easy")){
+            sideLength = 50;
+        }
+        else if(difficulty.equals("Medium")){
+            sideLength = 35;
+        }
+        else if(difficulty.equals("Hard")){
+            sideLength = 20;
+        }
         createMaze(filename);
+    }
+
+    public int getSideLength(){
+        return sideLength;
     }
 
     private void createMaze(String filename) {
@@ -43,7 +55,6 @@ public class Maze {
                     if (line.charAt(col) == '#') {
                         this.mazeGrid[row][col].setWall(true);
                     } else if (line.charAt(col) == 'A') {
-                        this.mazeGrid[row][col].setExplored(true);
                         this.startCell = this.mazeGrid[row][col];
                         mazeGrid[row][col].setStartCell();
                     } else if (line.charAt(col) == 'B') {
@@ -59,19 +70,6 @@ public class Maze {
         }
     }
 
-    public void reset() {
-        for (int row=0; row<this.numRows; row++) {
-            for (int col=0; col<this.numCols; col++) {
-                MazeCell mc = this.mazeGrid[row][col];
-
-
-                // Set the start cell to be visited
-                if (mc != this.startCell) {
-                    mc.setExplored(false);
-                }
-            }
-        }
-    }
 
 
     public MazeCell getStartCell() {
@@ -89,7 +87,7 @@ public class Maze {
     public boolean isValidCell(int row, int col) {
         // As long as the cell is not out of bounds, is not a wall, and has not been explored
         // it is valid
-        if(row >= numRows || col >= numCols || row < 0 || col < 0 || mazeGrid[row][col].isExplored() || mazeGrid[row][col].isWall()){
+        if(row >= numRows || col >= numCols || row < 0 || col < 0 || mazeGrid[row][col].isWall()){
             return false;
         }
         return true;
@@ -100,15 +98,15 @@ public class Maze {
             for(int j = 0; j < numCols; j++){
                 if (this.mazeGrid[i][j].isWall()){
                     g.setColor(Color.BLACK);
-                    g.fillRect(STARTING_X + i * CELL_WIDTH, STARTING_Y + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+                    g.fillRect(STARTING_X + j * sideLength, STARTING_Y + i * sideLength, sideLength, sideLength);
                 }
                 else if (this.mazeGrid[i][j].isStartCell()){
                     g.setColor(Color.GREEN);
-                    g.fillRect(STARTING_X + i * CELL_WIDTH, STARTING_Y + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+                    g.fillRect(STARTING_X + j * sideLength, STARTING_Y + i * sideLength, sideLength, sideLength);
                 }
                 else if (this.mazeGrid[i][j].isEndCell()){
                     g.setColor(Color.RED);
-                    g.fillRect(STARTING_X + i * CELL_WIDTH, STARTING_Y + j * CELL_HEIGHT, CELL_WIDTH, CELL_HEIGHT);
+                    g.fillRect(STARTING_X + j * sideLength, STARTING_Y + i * sideLength, sideLength, sideLength);
                     }
                 }
             }

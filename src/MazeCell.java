@@ -1,5 +1,4 @@
 public class MazeCell {
-    private boolean explored;
     private boolean isWall;
     private int row;
     private int col;
@@ -10,13 +9,9 @@ public class MazeCell {
         this.row = row;
         this.col = col;
         this.isWall = false;
-        this.explored = false;
     }
 
     /** Getters and Setters **/
-    public boolean isExplored() {
-        return this.explored;
-    }
 
     public boolean isWall() {
         return this.isWall;
@@ -35,9 +30,6 @@ public class MazeCell {
         return this.col;
     }
 
-    public void setExplored(boolean explored) {
-        this.explored = explored;
-    }
 
 
 

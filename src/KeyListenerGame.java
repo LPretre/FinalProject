@@ -1,9 +1,11 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class KeyListenerGame implements KeyListener {
-    public static final int BALL_START_RADIUS = 25,
+public class KeyListenerGame implements KeyListener, MouseListener {
+    public static final int CELL_WIDTH = 15,
             BALL_START_X = 100,
             BALL_START_Y = 100,
             STEP_SIZE = 10;
@@ -12,13 +14,24 @@ public class KeyListenerGame implements KeyListener {
     private Maze m;
     private MazeRaceView window;
     private MazeCell currentCell;
+    private Button easyButton;
+    private Button mediumButton;
+    private Button hardButton;
+    private boolean isPlaying;
+    private boolean isWon;
 
     // Constructors
     public KeyListenerGame() {
-        m = new Maze("mazes/maze1.txt");
-        b = new Square(300,600, Color.BLUE);
-        window = new MazeRaceView(b, m);
+        m = new Maze("mazes/mediumMaze.txt", "Medium");
+        b = new Square(100 + m.getStartCell().getCol() * m.getSideLength(),
+                50 + m.getStartCell().getRow() * m.getSideLength(), Color.BLUE, m.getSideLength());
+        easyButton = new Button(400, 200, "Easy", true);
+        mediumButton = new Button(400, 400, "Medium", true);
+        hardButton = new Button(400, 600, "Hard", true);
+        window = new MazeRaceView(b, m, easyButton, mediumButton, hardButton, this);
         currentCell = m.getStartCell();
+        isPlaying = false;
+        isWon = false;
 
         // The addKeyListener method attaches to this KeyListener object
         // an object that implements the KeyListener interface (i.e. supplies the keyTyped, keyReleased, and keyPressed methods)
@@ -26,10 +39,20 @@ public class KeyListenerGame implements KeyListener {
         // we are saying that this specific KeyListenerDemo object
         // supplies its own KeyListener functionality (contains the 3 required KeyListener methods).
         window.addKeyListener(this);               // #4 Required for KeyListener
+        window.addMouseListener(this);
+
+    }
+
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
+    public boolean isWon(){
+        return isWon;
     }
 
     public static void main(String[] args) {
-        KeyListenerGame klDemo = new KeyListenerGame();
+        KeyListenerGame klGame = new KeyListenerGame();
     }
 
     //////////////////////////////////////////////////////////////
@@ -37,54 +60,56 @@ public class KeyListenerGame implements KeyListener {
      * Methods all KeyListeners must supply
      */
     //////////////////////////////////////////////////////////////
+
     @Override
     public void keyTyped(KeyEvent e) {
-        // Nothing required for this program.
-        // However, as a KeyListener, this class must supply this method
-//        switch(e.getKeyCode())
-//        {
-//            case KeyEvent.VK_LEFT:
-//                b.shiftXLeft();
-//                break;
-//            case KeyEvent.VK_RIGHT:
-//                b.shiftXRight();
-//                break;
-//            case KeyEvent.VK_UP:
-//                b.shiftYUp();
-//                break;
-//            case KeyEvent.VK_DOWN:
-//                b.shiftYDown();
-//                break;
-//        }
-//        window.repaint();
+
     }
 
     @Override
-    public void keyReleased(KeyEvent e) {
-        // Nothing required for this program.
-        // However, as a KeyListener, this class must supply this method
-        switch(e.getKeyCode()) {
+    public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
             case KeyEvent.VK_LEFT:
-                if (m.isValidCell(currentCell.getRow() - 1, currentCell.getCol())) {
-                    currentCell = m.getCell(currentCell.getRow() - 1, currentCell.getCol());
+                if (m.getEndCell().equals(m.getCell(currentCell.getRow(), currentCell.getCol() - 1))){
+                    isWon = true;
+                    isPlaying = false;
+                    window.repaint();
+                }
+                else if (m.isValidCell(currentCell.getRow(), currentCell.getCol() - 1)) {
+                    currentCell = m.getCell(currentCell.getRow(), currentCell.getCol() - 1);
                     b.shiftXLeft();
                 }
                 break;
             case KeyEvent.VK_RIGHT:
-                if (m.isValidCell(currentCell.getRow(), currentCell.getCol() + 1)) {
+                if (m.getEndCell().equals(m.getCell(currentCell.getRow(), currentCell.getCol() + 1))){
+                    isWon = true;
+                    isPlaying = false;
+                    window.repaint();
+                }
+                else if (m.isValidCell(currentCell.getRow(), currentCell.getCol() + 1)) {
                     currentCell = m.getCell(currentCell.getRow(), currentCell.getCol() + 1);
                     b.shiftXRight();
                 }
                 break;
             case KeyEvent.VK_UP:
-                if (m.isValidCell(currentCell.getRow() + 1, currentCell.getCol())){
-                    currentCell = m.getCell(currentCell.getRow() + 1, currentCell.getCol());
+                if (m.getEndCell().equals(m.getCell(currentCell.getRow() - 1, currentCell.getCol()))){
+                    isWon = true;
+                    isPlaying = false;
+                    window.repaint();
+                }
+                else if (m.isValidCell(currentCell.getRow() - 1, currentCell.getCol())) {
+                    currentCell = m.getCell(currentCell.getRow() - 1, currentCell.getCol());
                     b.shiftYUp();
                 }
                 break;
             case KeyEvent.VK_DOWN:
-                if (m.isValidCell(currentCell.getRow(), currentCell.getCol() + 1)) {
-                    currentCell = m.getCell(currentCell.getRow(), currentCell.getCol() + 1);
+                if (m.getEndCell().equals(m.getCell(currentCell.getRow() + 1, currentCell.getCol()))){
+                    isWon = true;
+                    isPlaying = false;
+                    window.repaint();
+                }
+                else if (m.isValidCell(currentCell.getRow() + 1, currentCell.getCol())) {
+                    currentCell = m.getCell(currentCell.getRow() + 1, currentCell.getCol());
                     b.shiftYDown();
                 }
                 break;
@@ -92,24 +117,75 @@ public class KeyListenerGame implements KeyListener {
         window.repaint();
     }
 
+
     @Override
-    public void keyPressed(KeyEvent e) {
-        // The keyCode lets you know which key was pressed
-//        switch(e.getKeyCode())
-//        {
-//            case KeyEvent.VK_LEFT:
-//                b.shiftXLeft();
-//                break;
-//            case KeyEvent.VK_RIGHT:
-//                b.shiftXRight();
-//                break;
-//            case KeyEvent.VK_UP:
-//                b.shiftYUp();
-//                break;
-//            case KeyEvent.VK_DOWN:
-//                b.shiftYDown();
-//                break;
-//        }
-//        window.repaint();
+    public void keyReleased(KeyEvent e) {
+
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        if (easyButton.isClicked(e.getX(), e.getY()) && easyButton.isShown()) {
+            // TODO do stuff
+            System.out.println("easy button clicked");
+            easyButton.setVisibility(false);
+            mediumButton.setVisibility(false);
+            hardButton.setVisibility(false);
+            isPlaying = true;
+            m = new Maze("mazes/easyMaze.txt", "Easy");
+            b = new Square(100 + m.getStartCell().getCol() * m.getSideLength(),
+                    50 + m.getStartCell().getRow() * m.getSideLength(), Color.BLUE, m.getSideLength());
+            window.setMaze(m);
+            window.setSquare(b);
+            window.repaint();
+        }
+        else if (mediumButton.isClicked(e.getX(), e.getY()) && easyButton.isShown()) {
+            // TODO do stuff
+            System.out.println("medium button clicked");
+            easyButton.setVisibility(false);
+            mediumButton.setVisibility(false);
+            hardButton.setVisibility(false);
+            isPlaying = true;
+            m = new Maze("mazes/mediumMaze.txt", "Medium");
+            b = new Square(100 + m.getStartCell().getCol() * m.getSideLength(),
+                    50 + m.getStartCell().getRow() * m.getSideLength(), Color.BLUE, m.getSideLength());
+            window.setMaze(m);
+            window.setSquare(b);
+            window.repaint();
+        }
+        else if (hardButton.isClicked(e.getX(), e.getY()) && easyButton.isShown()) {
+            // TODO do stuff
+            System.out.println("hard button clicked");
+            easyButton.setVisibility(false);
+            mediumButton.setVisibility(false);
+            hardButton.setVisibility(false);
+            isPlaying = true;
+            m = new Maze("mazes/hardMaze.txt", "Hard");
+            b = new Square(100 + m.getStartCell().getCol() * m.getSideLength(),
+                    50 + m.getStartCell().getRow() * m.getSideLength(), Color.BLUE, m.getSideLength());
+            window.setMaze(m);
+            window.setSquare(b);
+            window.repaint();
+        }
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
     }
 }
