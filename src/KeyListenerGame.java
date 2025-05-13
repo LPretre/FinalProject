@@ -43,10 +43,12 @@ public class KeyListenerGame implements KeyListener, MouseListener {
 
     }
 
+    // Return true if a button is clicked and the game is not won
     public boolean isPlaying() {
         return isPlaying;
     }
 
+    // Return true if the user reached the end square
     public boolean isWon(){
         return isWon;
     }
@@ -66,9 +68,13 @@ public class KeyListenerGame implements KeyListener, MouseListener {
 
     }
 
+    // Used key method, control gameplay
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
+            // For each arrow key, check the corresponding box that would be moved into
+            // Move the user square into that box if it is valid and not the end cell
+            // If the intended cell is the end cell, set isWon to true
             case KeyEvent.VK_LEFT:
                 if (m.getEndCell().equals(m.getCell(currentCell.getRow(), currentCell.getCol() - 1))){
                     isWon = true;
@@ -128,11 +134,14 @@ public class KeyListenerGame implements KeyListener, MouseListener {
 
     }
 
+
+    // Mouse mechanics for main menu screen
     @Override
     public void mousePressed(MouseEvent e) {
+        // If any button is clicked, set each button's visibility to false and set is playing to true
+        // Load in the right maze difficulty for the button and set the front end maze and user square to
+        // correspond with the maze difficulty
         if (easyButton.isClicked(e.getX(), e.getY()) && easyButton.isShown()) {
-            // TODO do stuff
-            System.out.println("easy button clicked");
             easyButton.setVisibility(false);
             mediumButton.setVisibility(false);
             hardButton.setVisibility(false);
@@ -145,8 +154,6 @@ public class KeyListenerGame implements KeyListener, MouseListener {
             window.repaint();
         }
         else if (mediumButton.isClicked(e.getX(), e.getY()) && easyButton.isShown()) {
-            // TODO do stuff
-            System.out.println("medium button clicked");
             easyButton.setVisibility(false);
             mediumButton.setVisibility(false);
             hardButton.setVisibility(false);
@@ -159,8 +166,6 @@ public class KeyListenerGame implements KeyListener, MouseListener {
             window.repaint();
         }
         else if (hardButton.isClicked(e.getX(), e.getY()) && easyButton.isShown()) {
-            // TODO do stuff
-            System.out.println("hard button clicked");
             easyButton.setVisibility(false);
             mediumButton.setVisibility(false);
             hardButton.setVisibility(false);

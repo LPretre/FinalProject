@@ -5,6 +5,7 @@ public class MazeCell {
     private boolean isStartCell;
     private boolean isEndCell;
 
+    // Constructor
     public MazeCell(int row, int col) {
         this.row = row;
         this.col = col;
@@ -29,8 +30,6 @@ public class MazeCell {
     public int getCol() {
         return this.col;
     }
-
-
 
 
     public void setWall(boolean wall) {

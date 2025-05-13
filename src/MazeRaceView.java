@@ -13,6 +13,7 @@ public class MazeRaceView extends JFrame {
     private Maze m;
     private KeyListenerGame k;
 
+    //Constructor
     public MazeRaceView(Square b, Maze m, Button easy, Button medium, Button hard, KeyListenerGame k) {
         this.b = b;
         this.m = m;
@@ -27,15 +28,18 @@ public class MazeRaceView extends JFrame {
         this.setVisible(true);
     }
 
+    // Set specific maze
     public void setMaze(Maze m){
         this.m = m;
     }
 
+    // Set user square
     public void setSquare(Square b){
         this.b = b;
     }
 
-    public void drawHomeScreen(Graphics g){
+    // Displays victory screen
+    public void drawVictoryScreen(Graphics g){
         g.setColor(Color.GREEN);
         g.setFont(new Font("Arial", Font.BOLD, 100));
         g.drawString("You win!", 300, 300);
@@ -50,14 +54,16 @@ public class MazeRaceView extends JFrame {
         // Because g.Color was set to WHITE, the rectangle will be WHITE
         g.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        // Now have the ball draw itself on top of the White window.
+        // After a button is clicked display the right maze and user square
         if (k.isPlaying()) {
             m.draw(g);
             b.draw(g);
         }
+        // If the game is won display the victory screen
         else if(k.isWon()){
-            drawHomeScreen(g);
+            drawVictoryScreen(g);
         }
+        // Otherwise draw the buttons
         else {
             easy.draw(g);
 

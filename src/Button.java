@@ -9,6 +9,7 @@ public class Button {
     private String text;
     private boolean isShown;
 
+    // Constructor
     public Button(int x, int y, String text, boolean isShown) {
         this.x = x;
         this.y = y;
@@ -16,17 +17,22 @@ public class Button {
         this.isShown = isShown;
     }
 
+    // If the user clicks within the boundaries of the button rectangle return true
     public boolean isClicked(int mouseX, int mouseY) {
         return (mouseX >= x && mouseX <= x + WIDTH) && (mouseY >= y && mouseY <= y + HEIGHT);
     }
 
+    // Set whether the button can be seen
     public void setVisibility(Boolean isShown){
         this.isShown = isShown;
     }
 
+    // Return whether the button is showing or not
     public boolean isShown(){
         return isShown;
     }
+
+    // Draw the button
     public void draw(Graphics g) {
             g.setColor(Color.GRAY);
             g.fillRect(x, y, WIDTH, HEIGHT);

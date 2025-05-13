@@ -19,22 +19,28 @@ public class Square {
     }
 
 
-
+    // Move the square one cell to the right
     public void shiftXRight(){
         x += sideLength;
     }
+
+    // Move the square one cell to the left
     public void shiftXLeft(){
         x -= sideLength;
     }
 
+    // Draw the square as a blue cell
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillRect(x, y, sideLength, sideLength);
     }
 
+    // Move the square one cell up
     public void shiftYUp() {
         y -= sideLength;
     }
+
+    // Move the square one cell down
     public void shiftYDown() {
         y += sideLength;
     }

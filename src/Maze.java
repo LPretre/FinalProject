@@ -15,7 +15,9 @@ public class Maze {
     private static final int STARTING_Y = 50;
     private int sideLength;
 
+    // Constructor
     public Maze(String filename, String difficulty) {
+        // Set cell lengths depending on difficulty
         if (difficulty.equals("Easy")){
             sideLength = 50;
         }
@@ -71,6 +73,7 @@ public class Maze {
     }
 
 
+    // More getters and setters
 
     public MazeCell getStartCell() {
         return this.startCell;
@@ -85,7 +88,7 @@ public class Maze {
     }
 
     public boolean isValidCell(int row, int col) {
-        // As long as the cell is not out of bounds, is not a wall, and has not been explored
+        // As long as the cell is not out of bounds, and is not a wall
         // it is valid
         if(row >= numRows || col >= numCols || row < 0 || col < 0 || mazeGrid[row][col].isWall()){
             return false;
@@ -94,6 +97,9 @@ public class Maze {
     }
 
     public void draw(Graphics g){
+        // Draw each maze cell, filling it black if it is a wall, green if it is the start cell, and red if
+        // it is the end cell
+        // Do not fill in empty cells
         for(int i = 0; i < numRows; i++){
             for(int j = 0; j < numCols; j++){
                 if (this.mazeGrid[i][j].isWall()){
